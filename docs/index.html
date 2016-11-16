@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.12"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MD_MSGEQ7 IC Arduino Library: src/MD_MSGEQ7.cpp File Reference</title>
+<title>MD_MSGEQ7 IC Arduino Library: Arduino MSGEQ7 Graphic Equalizer Library</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('_m_d___m_s_g_e_q7_8cpp.html','');});
+$(document).ready(function(){initNavTree('index.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -83,32 +83,38 @@ $(document).ready(function(){initNavTree('_m_d___m_s_g_e_q7_8cpp.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">MD_MSGEQ7.cpp File Reference</div>  </div>
+<div class="title">Arduino MSGEQ7 Graphic Equalizer Library </div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Implements class definition and general methods.  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="_m_d___m_s_g_e_q7_8h.html">MD_MSGEQ7.h</a>&quot;</code><br />
-</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for MD_MSGEQ7.cpp:</div>
-<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="_m_d___m_s_g_e_q7_8cpp__incl.png" border="0" usemap="#src_2_m_d___m_s_g_e_q7_8cpp" alt=""/></div>
-<map name="src_2_m_d___m_s_g_e_q7_8cpp" id="src_2_m_d___m_s_g_e_q7_8cpp">
-<area shape="rect" id="node3" href="_m_d___m_s_g_e_q7_8h.html" title="Main header file for the MD_MSGEQ7 library. " alt="" coords="23,80,139,107"/>
-</map>
-</div>
-</div><a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implements class definition and general methods. </p>
+<div class="textblock"><h2>The MSGEQ7 Seven Band Graphic Equalizer IC </h2>
+<p>The seven band graphic equalizer IC is a CMOS chip that divides the audio spectrum into seven bands, 63Hz, 160Hz, 400Hz, 1kHz, 2.5kHz, 6.25kHz and 16kHz. The seven frequencies are peak detected and multiplexed to the output to provide a DC representation of the amplitude of each band. The multiplexor is controlled by a reset and a strobe, permitting multiplexor readout with only two pins.</p>
+<p>This library implements functions that allow the IC to be controlled and the data read into an internal buffer, from which it can be conveniently accessed.</p>
+<h2>The Hardware </h2>
+<p>The hardware implementation is user dependent. Most hardware will follow the typical circuit given in the IC datasheet.</p>
+<div class="image">
+<img src="MSGEQ7_Circuit.jpg" alt="MSGEQ7_Circuit.jpg"/>
+<div class="caption">
+MSGEQ7 Standard circuit from the datasheet</div></div>
+ <h2>Connections to the Arduino Board </h2>
+<p>The Arduino interface is implemented with 2 digital outputs and one Analog input whose identifiers are passed through to the class constructor.</p><ul>
+<li>The library controls the IC using <em>Reset</em> and <em>Strobe</em>.</li>
+<li>The <em>DC Out</em> signal is connected to an analog input to read the value from the IC.</li>
+</ul>
+<h2>Revision History </h2>
+<p>April 2015 version 1.0</p><ul>
+<li>First implementation</li>
+</ul>
+<h2>Copyright </h2>
+<p>Copyright (C) 2015 Marco Colli. All rights reserved.</p>
+<p>This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.</p>
+<p>This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.</p>
+<p>You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="_m_d___m_s_g_e_q7_8cpp.html">MD_MSGEQ7.cpp</a></li>
-    <li class="footer">Generated on Mon Nov 14 2016 18:59:15 for MD_MSGEQ7 IC Arduino Library by
+    <li class="footer">Generated on Thu Nov 17 2016 09:11:51 for MD_MSGEQ7 IC Arduino Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.12 </li>
   </ul>

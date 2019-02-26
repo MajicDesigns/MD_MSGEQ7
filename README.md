@@ -2,4 +2,4 @@ The seven band graphic equalizer IC is a CMOS chip that divides the audio spectr
 
 This library implements functions that allow the IC to be controlled and the data read into an internal buffer, from which it can be conveniently accessed.
 
-[Library Documentation](https://majicdesigns.github.io/MSGEQ7/)
+[Library Documentation](https://majicdesigns.github.io/MD_MSGEQ7/)

@@ -29,7 +29,10 @@ whose identifiers are passed through to the class constructor.
 
 Revision History 
 ----------------
-April 2015 version 1.0
+Feb 2019 version 1.1.0
+- Changed return type to uint16_t to match band data.
+
+Apr 2015 version 1.0
 - First implementation
 
 Copyright

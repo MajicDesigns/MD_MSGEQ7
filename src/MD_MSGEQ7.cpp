@@ -70,7 +70,7 @@ void MD_MSGEQ7::read(bool bReset)
   }
 }
 
-uint8_t MD_MSGEQ7::get(uint8_t band)
+uint16_t MD_MSGEQ7::get(uint8_t band)
 // Read the data from the local data array
 {
 	// don't read out of bounds

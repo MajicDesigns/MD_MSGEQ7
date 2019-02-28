@@ -134,7 +134,7 @@ public:
    * \param band		index of the data point requested [0..MAX_BAND-1].
    * \return The value requested from the buffer.
    */
-	uint8_t get(uint8_t band);
+	uint16_t get(uint8_t band);
   /** @} */
 
 private:

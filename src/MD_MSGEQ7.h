@@ -81,8 +81,8 @@ public:
    * \param strobePin	Arduino output for strobing the device during read.
    * \param dataPin		Arduino input where data gets read from the IC.
    */
- 	MD_MSGEQ7(uint8_t resetPin, uint8_t strobePin, uint8_t dataPin):
-		_resetPin(resetPin), _strobePin(strobePin), _dataPin(dataPin) 
+ 	MD_MSGEQ7(uint8_t resetPin, uint8_t strobePin, uint8_t dataPin, uint8_t readDelay):
+		_resetPin(resetPin), _strobePin(strobePin), _dataPin(dataPin) , _readDelay(readDelay)
 		{};
 
   /** 
@@ -122,9 +122,9 @@ public:
 	 * is used to suppress a reset before the read - default is to reset.
 	 * 
    * \param bReset	enables a device reset prior to read if true, disables if false.
-   * \return No Return value.
+   * \return True if read was successful
    */
-	void read(bool bReset = true);
+	bool read(bool bReset = true);
 	
   /**
    * Get a specific value from the data read.
@@ -145,6 +145,10 @@ private:
 	uint8_t _resetPin;
 	uint8_t _strobePin;
 	uint8_t _dataPin;
+
+  // Read delay settings
+  uint8_t _readDelay;
+  uint32_t _lastRead;
 
 	// array of all input values
 	uint16_t _data[MAX_BAND];

@@ -3,7 +3,7 @@
  
  Reads the input value from the IC and displays a spectrum on a 8x8 LED matrix.
  
- MD_MAX72xx library can be found at http://arduinocode.codeplex.com
+ MD_MAX72xx available from IDE Library Manager or https://github.com/MajicDesigns/MD_MAX72xx
 */
 
 #include <MD_MSGEQ7.h>
@@ -28,28 +28,28 @@
 // Define the number of devices we have in the chain and the hardware interface
 // NOTE: These pin numbers will probably not work with your hardware and may
 // need to be adapted
-#define	MAX_DEVICES	1
+// Define the number of devices we have in the chain and the hardware interface
+const MD_MAX72XX::moduleType_t HARDWARE_TYPE = MD_MAX72XX::PAROLA_HW;
+const uint8_t MAX_DEVICES	= 1;
 
-#define	MX_CLK_PIN	13  // or SCK
-#define	MX_DATA_PIN	11  // or MOSI
-#define	MX_CS_PIN   10  // or SS
+const uint8_t MX_CLK_PIN = 13;  // or SCK
+const uint8_t MX_DATA_PIN =	11;  // or MOSI
+const uint8_t MX_CS_PIN = 10;  // or SS
 
 // SPI hardware interface
-MD_MAX72XX mx = MD_MAX72XX(MX_CS_PIN, MAX_DEVICES);
+MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, MX_CS_PIN, MAX_DEVICES);
 // Arbitrary pins
-//MD_MAX72XX mx = MD_MAX72XX(MX_DATA_PIN, MX_CLK_PIN, MX_CS_PIN, MAX_DEVICES);
+//MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, MX_DATA_PIN, MX_CLK_PIN, MX_CS_PIN, MAX_DEVICES);
 
 // MSGEQ7 hardware pin definitions - change to suit circuit
-#define DATA_PIN    A5
-#define RESET_PIN   6
-#define STROBE_PIN  7
+const uint8_t DATA_PIN = A5;
+const uint8_t RESET_PIN = 6;
+const uint8_t STROBE_PIN = 7;
+const uint32_t READ_DELAY = 75;    // milliseconds
 
-// frequency reading the IC data
-#define READ_DELAY  75    // milliseconds
+MD_MSGEQ7 MSGEQ7(RESET_PIN, STROBE_PIN, DATA_PIN, READ_DELAY);
 
-MD_MSGEQ7 MSGEQ7(RESET_PIN, STROBE_PIN, DATA_PIN);
-
-void setup() 
+void setup(void) 
 {
 #if DEBUG
   Serial.begin(57600);
@@ -61,20 +61,14 @@ void setup()
   MSGEQ7.begin();
 }
 
-void loop() 
+void loop(void) 
 {
-  static uint32_t prevTime = 0;
-  
-  if (millis() - prevTime >= READ_DELAY) 
+  if (MSGEQ7.read()) 
   {
-    prevTime = millis();
-
-    MSGEQ7.read();
-
     // Matrix output
     mx.control(MD_MAX72XX::UPDATE, MD_MAX72XX::OFF);
     PRINTS("\n");
-    for (uint8_t i=0; i<MAX_BAND; i++)
+    for (uint8_t i=0; i<MD_MSGEQ7::MAX_BAND; i++)
     {
       PRINT("\t", i);
       uint8_t c = ((MSGEQ7.get(i) - 50) & 0xff) >> 5;  // number between 0 and 7

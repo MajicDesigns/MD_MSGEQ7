@@ -47,9 +47,12 @@ void MD_MSGEQ7::reset(void)
   delayMicroseconds(72);  // trs = 72 microseconds
 }
 
-void MD_MSGEQ7::read(bool bReset)
+bool MD_MSGEQ7::read(bool bReset)
 // Read all the values from the IC and store in local object array
 {
+	if (millis() - _timeLastRead <= _readDelay)
+		return(false);
+
 	if (bReset) reset(); 	// reset the IC if required
 
 	// read all MAX_BAND channels 
@@ -68,6 +71,8 @@ void MD_MSGEQ7::read(bool bReset)
     
     delayMicroseconds(18);
   }
+	_timeLastRead = millis();
+	return true;
 }
 
 uint16_t MD_MSGEQ7::get(uint8_t band)

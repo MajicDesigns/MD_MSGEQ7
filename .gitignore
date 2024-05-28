@@ -12,7 +12,7 @@
 #Stuff
 *.zip
 
-#Visual Studio and Atmel Studio files
+#Visual Studio files
 *.sln
 *.vcxproj
 *.filters
@@ -45,6 +45,18 @@ ipch/
 [Dd]ebug*/
 [Rr]elease*/
 Ankh.NoLoad
+.vs/
+
+#Video files
+*.mov
+*.mp3
+*.mp4
+*.wlmp
+
+#Pelles C files
+*.ppj
+*.tag
+*.ppx
 
 #Additional Atmel Studio files
 *.atsln

@@ -11,12 +11,10 @@ FastLED library, updates and news used can be found at http://fastled.io
 
 #define DEBUG 0
 #if DEBUG
-
 #define	PRINT(s, x)	{ Serial.print(F(s)); Serial.print(x); }
 #define	PRINTS(x)	Serial.print(F(x))
 #define	PRINTD(x)	Serial.println(x, DEC)
 #else
-
 #define	PRINT(s, x)
 #define PRINTS(x)
 #define PRINTD(x)
@@ -32,16 +30,14 @@ FastLED library, updates and news used can be found at http://fastled.io
 CRGB leds[MAX_LED];
 
 //MD_MSGEQ7
-#define DATA_PIN    A5
-#define RESET_PIN   6
-#define STROBE_PIN  7
+const uint8_t DATA_PIN = A5;
+const uint8_t RESET_PIN = 6;
+const uint8_t STROBE_PIN = 7;
+const uint32_t READ_DELAY = 50;  // milliseconds
 
-MD_MSGEQ7 MSGEQ7(RESET_PIN, STROBE_PIN, DATA_PIN);
+MD_MSGEQ7 MSGEQ7(RESET_PIN, STROBE_PIN, DATA_PIN, READ_DELAY);
 
-// Frequency for main loop function
-#define READ_DELAY  50  // milliseconds
-
-void setup() 
+void setup(void) 
 {
 #if DEBUG
   Serial.begin(57600);
@@ -57,19 +53,16 @@ void setup()
   MSGEQ7.begin();
 }
 
-void loop() 
+void loop(void) 
 {
-  // read without delay
-  static uint8_t  bandHue[MAX_BAND] = { HUE_PURPLE, HUE_PINK, HUE_RED, HUE_YELLOW, HUE_GREEN, HUE_AQUA, HUE_BLUE };
-  static uint32_t prevTime = 0;
-
-  if (millis() - prevTime > READ_DELAY) 
+  static uint8_t  bandHue[MD_MSGEQ7::MAX_BAND] = 
+  { 
+    HUE_PURPLE, HUE_PINK, HUE_RED, HUE_YELLOW, HUE_GREEN, HUE_AQUA, HUE_BLUE 
+  };
+ 
+  if (MSGEQ7.read()) 
   {
-    prevTime = millis();
-
-    MSGEQ7.read();
-
-    for (int i = 0; i < MAX_BAND; i++) 
+    for (int i = 0; i < MD_MSGEQ7::MAX_BAND; i++) 
     {
       leds[i].setHSV(bandHue[i], 255, MSGEQ7.get(i) & 0xff);
     }

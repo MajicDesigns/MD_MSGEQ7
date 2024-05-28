@@ -23,12 +23,16 @@ Connections to the Arduino Board
 --------------------------------
 The Arduino interface is implemented with 2 digital outputs and one Analog input
 whose identifiers are passed through to the class constructor.
-- The library controls the IC using _Reset_ and _Strobe_. 
-- The _DC Out_ signal is connected to an analog input to read the value from the IC.
-
+- The library controls the IC using _Reset_ and _Strobe_ output pins. 
+- The _DC Out_ signal is connected to an analog input pin to read the value from the IC.
 
 Revision History 
 ----------------
+May 2024 version 1.2.0
+- Added internal read delay handling
+- Updated examples to use new timer
+- Updated examples for changes in other libraries
+
 Feb 2019 version 1.1.0
 - Changed return type to uint16_t to match band data.
 
@@ -63,26 +67,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * \brief Main header file for the MD_MSGEQ7 library
  */
 
-#define MAX_BAND 7		///< Number of bands output by the hardware IC
-
 /**
  * Core object for the MD_MSGEQ7 library
  */
 class MD_MSGEQ7
 {
 public:
+
+  static const uint8_t MAX_BAND = 7; ///< Number of bands output by the hardware IC
+
   /** 
-   * Class Constructor - arbitrary digital interface.
+   * Class Constructor - arbitrary digital interface with delay.
    *
    * Instantiate a new instance of the class. The parameters passed are used to 
    * connect the software to the hardware. Multiple instances may co-exist. 
+   *
+   * The delay parameter causes the library to read the device no more frequently 
+   * that every readDelay milliseconds. This relieves the calling application 
+   * from managing timers to control reqd() frequency
+   *
+   * \sa read()
    * 
    * \param resetPin	Arduino output pin for IC reset.
    * \param strobePin	Arduino output for strobing the device during read.
    * \param dataPin		Arduino input where data gets read from the IC.
+   * \param readDelay milliseconds delay between device reads.
    */
- 	MD_MSGEQ7(uint8_t resetPin, uint8_t strobePin, uint8_t dataPin):
-		_resetPin(resetPin), _strobePin(strobePin), _dataPin(dataPin) 
+ 	MD_MSGEQ7(uint8_t resetPin, uint8_t strobePin, uint8_t dataPin, uint32_t readDelay):
+		_resetPin(resetPin), _strobePin(strobePin), _dataPin(dataPin),
+    _readDelay(readDelay), _timeLastRead(0)
 		{};
 
   /** 
@@ -95,8 +108,8 @@ public:
   /** 
    * Initialize the object.
    *
-   * Initialise the object data. This needs to be called during setup() to 
-	 * initialise new data for the class that cannot be done during the object 
+   * Initialize the object data. This needs to be called during setup() to 
+	 * initialize new data for the class that cannot be done during the object 
 	 * creation.
    */
 	void begin(void);
@@ -116,10 +129,16 @@ public:
    *
 	 * Read a full set of MAX_BAND values from the IC. The optional parameter
 	 * is used to suppress a reset before the read - default is to reset.
+   * 
+   * The readDelay passed into the constructor is used to set the minimum 
+   * read() frequency. The method returns false if the timer has not expired.
 	 * 
+   * \sa get()
+   *
    * \param bReset	enables a device reset prior to read if true, disables if false.
+   * \return true if read was executed and data is available.
    */
-	void read(bool bReset = true);
+	bool read(bool bReset = true);
 	
   /**
    * Get a specific value from the data read.
@@ -140,6 +159,10 @@ private:
 	uint8_t _resetPin;
 	uint8_t _strobePin;
 	uint8_t _dataPin;
+
+  // Read delay settings
+  uint32_t _readDelay;
+  uint32_t _timeLastRead;
 
 	// array of all input values
 	uint16_t _data[MAX_BAND];

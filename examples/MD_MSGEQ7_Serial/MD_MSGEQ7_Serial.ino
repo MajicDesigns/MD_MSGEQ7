@@ -7,16 +7,16 @@
 #include <MD_MSGEQ7.h>
 
 // hardware pin definitions - change to suit circuit
-#define DATA_PIN    A5
-#define RESET_PIN   6
-#define STROBE_PIN  7
+const uint8_t DATA_PIN = A5;
+const uint8_t RESET_PIN = 6;
+const uint8_t STROBE_PIN = 7;
 
 // frequency reading the IC data
-#define READ_DELAY  50
+const uint32_t READ_DELAY = 50;
 
-MD_MSGEQ7 MSGEQ7(RESET_PIN, STROBE_PIN, DATA_PIN);
+MD_MSGEQ7 MSGEQ7(RESET_PIN, STROBE_PIN, DATA_PIN, READ_DELAY);
 
-void setup() 
+void setup(void) 
 {
   MSGEQ7.begin();
 
@@ -24,19 +24,12 @@ void setup()
   Serial.println("[MD_MSG_SEQ7_Serial]");
 }
 
-void loop() 
+void loop(void) 
 {
-  // only read every READ_DELAY milliseconds
-  static long prevTime = 0;
-  
-  if (millis() - prevTime >= READ_DELAY) 
+  if (MSGEQ7.read())
   {
-    prevTime = millis();
-
-    MSGEQ7.read();
-
     // Serial output
-    for (uint8_t i=0; i<MAX_BAND; i++)
+    for (uint8_t i=0; i<MD_MSGEQ7::MAX_BAND; i++)
     {
       Serial.print(MSGEQ7.get(i));
       Serial.print('\t');

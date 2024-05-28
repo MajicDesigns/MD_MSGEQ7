@@ -6,7 +6,7 @@ The seven band graphic equalizer IC is a CMOS chip that divides the
 audio spectrum into seven bands, 63Hz, 160Hz, 400Hz, 1kHz, 2.5kHz, 
 6.25kHz and 16kHz. The seven frequencies are peak detected and multiplexed 
 to the output to provide a DC representation of the amplitude of each band. 
-The multiplexor is controlled by a reset and a strobe, permitting multiplexor
+The multiplexer is controlled by a reset and a strobe, permitting multiplexor
 readout with only two pins.
 
 This library implements functions that allow the IC to be controlled and the
@@ -17,7 +17,7 @@ The Hardware
 The hardware implementation is user dependent. Most hardware will 
 follow the typical circuit given in the IC datasheet.
 
-![MSGEQ7 Standard circuit from the datasheet] (MSGEQ7_Circuit.jpg "MSGEQ7 Circuit")
+\image{inline} html MSGEQ7_Circuit.jpg "MSGEQ7 Circuit"
 
 Connections to the Arduino Board
 --------------------------------
@@ -98,8 +98,6 @@ public:
    * Initialise the object data. This needs to be called during setup() to 
 	 * initialise new data for the class that cannot be done during the object 
 	 * creation.
-	 *
-	 * \return	No return value.
    */
 	void begin(void);
 
@@ -110,8 +108,6 @@ public:
 
   /**
    * Reset the IC before initiating a read.
-   *
-   * \return No return value.
    */
 	void reset(void);
 	
@@ -122,7 +118,6 @@ public:
 	 * is used to suppress a reset before the read - default is to reset.
 	 * 
    * \param bReset	enables a device reset prior to read if true, disables if false.
-   * \return No Return value.
    */
 	void read(bool bReset = true);
 	

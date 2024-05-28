@@ -14,7 +14,7 @@
 // frequency reading the IC data
 #define READ_DELAY  50
 
-MD_MSGEQ7 MSGEQ7(RESET_PIN, STROBE_PIN, DATA_PIN);
+MD_MSGEQ7 MSGEQ7(RESET_PIN, STROBE_PIN, DATA_PIN, READ_DELAY);
 
 void setup() 
 {
@@ -26,15 +26,8 @@ void setup()
 
 void loop() 
 {
-  // only read every READ_DELAY milliseconds
-  static long prevTime = 0;
-  
-  if (millis() - prevTime >= READ_DELAY) 
+  if (MSGEQ7.read())
   {
-    prevTime = millis();
-
-    MSGEQ7.read();
-
     // Serial output
     for (uint8_t i=0; i<MAX_BAND; i++)
     {
